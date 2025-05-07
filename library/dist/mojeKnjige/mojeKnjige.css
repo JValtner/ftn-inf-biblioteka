@@ -1,3 +1,13 @@
-
+#mojeKnjige {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+#mojeKnjige .iznajmljeneKnjige {
+  width: 50%;
+}
+#mojeKnjige .postojeceKnjige {
+  width: 50%;
+}
 
 /*# sourceMappingURL=mojeKnjige.css.map */

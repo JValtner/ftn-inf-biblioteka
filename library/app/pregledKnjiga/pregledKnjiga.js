@@ -22,35 +22,40 @@ function inicijalizujFormu(){
     poveziFormu(knjige)
 }
 function poveziFormu(knjige){
-    const forma = document.getElementById("formaKnjiga")
-    forma.addEventListener("submit", function(e){
-        e.preventDefault()
+    let dugme = document.querySelector("#submitBtn")
+    dugme.addEventListener("click", function(){
+        const formKnjiga = uzmiPodatkeIzForme()
 
-        const naziv= document.getElementById("naziv")
-        const stampa = document.getElementById("stampa")
-        const url = document.getElementById("url")
-        const opis = document.getElementById("opis")
-        const popularnost = document.getElementById("popularnost")
-
-        const status= document.getElementById("statusPoruka")
-        if(!naziv || !stampa || !url || !opis || !popularnost){
-            status.textContent = "Molimo popunite sva polja"
-            status.style.color = "red"
-            return
+        if (!formKnjiga.naziv || !formKnjiga.datumStampanja || !formKnjiga.url || !formKnjiga.opis ||
+            isNaN(formKnjiga.popularnost) || formKnjiga.popularnost < 1 || formKnjiga.popularnost > 5) {
+          prikaziPoruku("Molimo popunite sva polja i proverite popularnost (1–5).", "red")
+          return
         }
 
         const noviId = izracunajNoviID(knjige)
+        knjige.push(new Knjiga(noviId, formKnjiga.naziv, formKnjiga.datumStampanja, formKnjiga.url, formKnjiga.opis, formKnjiga.popularnost, false))
 
-        const novaKnjiga = new Knjiga(noviId, naziv, stampa, url, opis, popularnost, false)
-
-        knjige.push(novaKnjiga)
         localStorage.setItem("knjige", JSON.stringify(knjige))
-
-        status.textContent= "Knjiga je uspesno dodatata."
-        status.style.color="green"
-
-        forma.reset()
+        prikaziPoruku("Knjiga je uspešno dodata.", "green")
     })
+
+}
+function uzmiPodatkeIzForme(){
+    const form = document.querySelector("#formaKnjiga")
+    const formData = new FormData (form)
+    const naziv= formData.get("naziv")
+    const datumStampanja = formData.get("datumStampanja")
+    const url = formData.get("url")
+    const opis = formData.get("opis")
+    const popularnost = parseInt(formData.get("popularnost"))
+
+    return{
+        naziv,
+        datumStampanja,
+        url,
+        opis,
+        popularnost
+    }
 }
 
 function izracunajNoviID(knjige){
@@ -61,6 +66,12 @@ function izracunajNoviID(knjige){
         }
     }
     return maxId+1
+}
+
+function prikaziPoruku(tekst, boja){
+    const status = document.getElementById("statusPoruka")
+    status.textContent= tekst
+    status.style.color = boja
 }
 
 document.addEventListener("DOMContentLoaded", inicijalizujFormu)

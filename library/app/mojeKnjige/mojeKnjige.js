@@ -11,3 +11,8 @@ class Knjiga{
     }
 
 }
+
+document.addEventListener("DOMContentLoaded", function(){
+    let sveKnjige = []
+    let stringKnjiga = localStorage.getItem("knjige")
+})

@@ -77,7 +77,13 @@ function handleDeleteBook(knjiga,knjige){
 function poveziFormu(knjige){
     let dugme = document.querySelector("#submitBtn")
     dugme.addEventListener("click", function(){
-        const formKnjiga = uzmiPodatkeIzForme()
+    const form = document.querySelector("#formaKnjiga")
+    const formData = new FormData (form)
+    const naziv= formData.get("naziv")
+    const datumStampanja = formData.get("datumStampanja")
+    const url = formData.get("url")
+    const opis = formData.get("opis")
+    const popularnost = parseInt(formData.get("popularnost"))
 
         if (!formKnjiga.naziv || !formKnjiga.datumStampanja || !formKnjiga.url || !formKnjiga.opis ||
             isNaN(formKnjiga.popularnost) || formKnjiga.popularnost < 1 || formKnjiga.popularnost > 5) {
@@ -87,37 +93,14 @@ function poveziFormu(knjige){
 
         const noviId = izracunajNoviID(knjige)
         knjige.push(new Knjiga(noviId, formKnjiga.naziv, formKnjiga.datumStampanja, formKnjiga.url, formKnjiga.opis, formKnjiga.popularnost, false))
-
-        knjige.push(novaKnjiga)
-
-        status.textContent= "Knjiga je uspesno dodatata."
-        status.style.color="green"
+    
+        prikaziPoruku("Knjiga je uspešno dodata.", "green")
 
         forma.reset()
         createProductRows(knjige)
         saveLocalStorage(knjige)
-    
-        localStorage.setItem("knjige", JSON.stringify(knjige))
-        prikaziPoruku("Knjiga je uspešno dodata.", "green")
     })
 
-}
-function uzmiPodatkeIzForme(){
-    const form = document.querySelector("#formaKnjiga")
-    const formData = new FormData (form)
-    const naziv= formData.get("naziv")
-    const datumStampanja = formData.get("datumStampanja")
-    const url = formData.get("url")
-    const opis = formData.get("opis")
-    const popularnost = parseInt(formData.get("popularnost"))
-
-    return{
-        naziv,
-        datumStampanja,
-        url,
-        opis,
-        popularnost
-    }
 }
 
 function izracunajNoviID(knjige){

@@ -1,0 +1,14 @@
+.mojeKnjige{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    .iznajmljeneKnjige{
+        width: 50%;
+
+    }
+    .postojeceKnjige{
+        width: 50%;
+    }
+    
+
+}

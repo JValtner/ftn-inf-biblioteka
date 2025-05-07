@@ -85,18 +85,18 @@ function poveziFormu(knjige){
     const opis = formData.get("opis")
     const popularnost = parseInt(formData.get("popularnost"))
 
-        if (!formKnjiga.naziv || !formKnjiga.datumStampanja || !formKnjiga.url || !formKnjiga.opis ||
-            isNaN(formKnjiga.popularnost) || formKnjiga.popularnost < 1 || formKnjiga.popularnost > 5) {
-          prikaziPoruku("Molimo popunite sva polja i proverite popularnost (1–5).", "red")
+        if (!naziv || !datumStampanja || !url || !opis ||
+            isNaN(popularnost) || popularnost < 1 || popularnost > 5) {
+            prikaziPoruku("Molimo popunite sva polja i proverite popularnost (1-5).", "red")
           return
         }
 
         const noviId = izracunajNoviID(knjige)
-        knjige.push(new Knjiga(noviId, formKnjiga.naziv, formKnjiga.datumStampanja, formKnjiga.url, formKnjiga.opis, formKnjiga.popularnost, false))
+        knjige.push(new Knjiga(noviId, naziv, datumStampanja, url, opis, popularnost, false))
     
         prikaziPoruku("Knjiga je uspešno dodata.", "green")
 
-        forma.reset()
+        form.reset()
         createProductRows(knjige)
         saveLocalStorage(knjige)
     })

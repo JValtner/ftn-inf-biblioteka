@@ -80,6 +80,7 @@ function createProductRows(knjige) {
 
 function handleReturnBook(knjiga,knjige){
     knjiga.iznajmljena = false
+    createAvailableRows(knjige)
     createProductRows(knjige)
     saveLocalStorage(knjige)
     

@@ -1,1 +1,4 @@
-@import './styles/global';
+@use './mojeKnjige/mojeKnjige.scss';
+@use './pregledKnjiga/pregledKnjiga.scss';
+@import '../app/styles/global.scss';
+

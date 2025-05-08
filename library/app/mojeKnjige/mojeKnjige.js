@@ -22,6 +22,7 @@ function initializeKnjige() {
     }
 
     createProductRows(knjige)
+    createAvailableRows(knjige)
     saveLocalStorage(knjige)
 }
 
@@ -31,7 +32,7 @@ function saveLocalStorage(knjige) {
     localStorage.setItem("knjige", jelaJSON)
 }
 function createProductRows(knjige) {
-    let tabela = document.querySelector("#pregledBody")
+    let tabela = document.querySelector("#pregledBodyIznajmljenih")
     tabela.innerHTML = ''
 
     if (knjige.some(knjiga => knjiga.iznajmljena === true)) {
@@ -64,7 +65,7 @@ function createProductRows(knjige) {
             }
         }
     } else {
-        let head = document.querySelector("#pregledHead")
+        let head = document.querySelector("#pregledHeadIznajmljenih")
         head.style.display = "none"
         let tr = document.createElement("tr")
         let td = document.createElement("td")
@@ -83,4 +84,44 @@ function handleReturnBook(knjiga,knjige){
     saveLocalStorage(knjige)
     
 }
+function createAvailableRows(knjige){
+    let tabela = document.querySelector("#pregledBodyPostojecih")
+    tabela.innerHTML = ''
 
+    const dostupneKnjige = knjige.filter(knjiga => knjiga.iznajmljena === false)
+
+    if(dostupneKnjige.length > 0){
+        for(let knjiga of dostupneKnjige){
+            let tr = document.createElement("tr")
+            let tdId = document.createElement("td")
+            let tdNaziv = document.createElement("td")
+            let tdOpcija = document.createElement("td")
+            let dugme = document.createElement("button")
+
+            tdId.textContent = knjiga.id
+            tdNaziv.textContent = knjiga.naziv
+            dugme.textContent = "Iznajmi"
+
+            dugme.addEventListener("click", function(){
+                knjiga.iznajmljena = true
+                saveLocalStorage(knjige)
+                createProductRows(knjige)
+                createAvailableRows(knjige)
+            })
+
+            tdOpcija.appendChild(dugme)
+            tr.appendChild(tdId)
+            tr.appendChild(tdNaziv)
+            tr.appendChild(tdOpcija)
+            tabela.appendChild(tr)
+        }
+    }
+    else{
+        let tr= document.createElement("tr")
+        let td= document.createElement("td")
+        td.colSpan = 3
+        td.textContent = "Trenutno nema dostupnih knjiga"
+        tr.appendChild(td)
+        tabela.appendChild(tr)
+    }
+}

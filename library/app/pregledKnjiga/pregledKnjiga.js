@@ -32,8 +32,8 @@ function saveLocalStorage(knjige) {
     localStorage.setItem("knjige", jelaJSON)
 }
 function createProductRows(knjige) {
-    let table = document.querySelector("pregled")
-    let tabela = document.querySelector("#pregledBody")
+    let table = document.querySelector("#pregledPostojecih")
+    let tabela = document.querySelector("#pregledBodyPostojecih")
     tabela.innerHTML = ''
 
     for (let knjiga of knjige) {
